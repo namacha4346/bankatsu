@@ -5,7 +5,43 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>伴活（ばんかつ）| 出会いもある。でも、それだけじゃない。</title>
 <meta name="description" content="伴活は、人生を共に歩める「伴」と出会う活動。30代・40代のための、婚活でもアプリでもサークルでもない、新しい出会いの文化です。">
+<meta name="theme-color" content="#F5F1E8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2034%2034'%3E%3Cpath%20d='M27.5%206.8%20A14%2014%200%201%200%2031%2017'%20stroke='%232F5244'%20stroke-width='2.4'%20fill='none'%20stroke-linecap='round'/%3E%3Ccircle%20cx='13.5'%20cy='17'%20r='3'%20fill='%232F5244'/%3E%3Ccircle%20cx='20.5'%20cy='17'%20r='3'%20fill='%23C06B4E'/%3E%3C/svg%3E">
+<!-- OGP: og:image は絶対URL必須。ドメイン確定後に https://〜/assets/ogp.png へ書き換えること -->
+<meta property="og:title" content="伴活（ばんかつ）| 出会いもある。でも、それだけじゃない。">
+<meta property="og:description" content="人生を共に歩める「伴」と出会う活動。30代・40代のための、新しい出会いの文化。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"一人で参加してもいいですか？","acceptedAnswer":{"@type":"Answer","text":"むしろ一人参加が標準です。参加者のほとんどが一人で来ます。一人で来て、一人で楽しめるように設計しています。"}},
+    {"@type":"Question","name":"恋人を探していなくても、参加していいですか？","acceptedAnswer":{"@type":"Answer","text":"はい。「なんか楽しそう」で十分です。伴活は恋愛を目的にしていません。いい時間と、また会いたい人に出会えたら、それで成功です。"}},
+    {"@type":"Question","name":"料金はいくらですか？","acceptedAnswer":{"@type":"Answer","text":"イベントごとに、内容と実費に応じて申込前に必ず明示します。目安は3,000〜5,000円程度。後から追加の費用をお願いすることはありません。"}},
+    {"@type":"Question","name":"男女比は管理されていますか？","acceptedAnswer":{"@type":"Answer","text":"男女それぞれに定員を設けて、大きく偏らないように管理します。比率が崩れた会は、どれだけ楽しくても台無しになると考えているからです。"}},
+    {"@type":"Question","name":"本人確認はありますか？","acceptedAnswer":{"@type":"Answer","text":"あります。申込時に身分証で年齢とご本人を確認します。「誰でも入れる場」にはしません。"}},
+    {"@type":"Question","name":"連絡先の交換はどうなっていますか？","acceptedAnswer":{"@type":"Answer","text":"その場で交換を迫らない設計です。イベントの後、運営を通じて「また会いたい」を伝えられる仕組みを用意します。お互いがそう思ったときだけ、おつなぎします。"}},
+    {"@type":"Question","name":"遊び目的でも参加できますか？","acceptedAnswer":{"@type":"Answer","text":"お断りしています。申込時の本人確認と事前のやりとりを通して、場を守ります。"}},
+    {"@type":"Question","name":"どこで開催されますか？","acceptedAnswer":{"@type":"Answer","text":"まずは一つの都市から小さく始めます。第1回の開催地と日程は、決まり次第このページと案内メールでお知らせします。"}}
+  ]
+}
+</script>
 <style>
+@font-face{
+  font-family:"Bankatsu Serif";
+  src:url("assets/fonts/NotoSerifJP-400.woff2") format("woff2");
+  font-weight:400;
+  font-display:swap;
+}
+@font-face{
+  font-family:"Bankatsu Serif";
+  src:url("assets/fonts/NotoSerifJP-600.woff2") format("woff2");
+  font-weight:600;
+  font-display:swap;
+}
 :root{
   --paper:#F5F1E8;
   --paper-2:#EDE7D9;
@@ -17,7 +53,7 @@
   --terra:#C06B4E;
   --line:rgba(38,37,31,.16);
   --card:#FBF9F3;
-  --serif:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;
+  --serif:"Bankatsu Serif","Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;
   --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic","Noto Sans JP",sans-serif;
 }
 @media (prefers-color-scheme: dark){
@@ -34,6 +70,7 @@
     --card:#1E2721;
   }
 }
+/* テーマトグル(将来のJS実装)用の明示指定。media queryを上書きする */
 :root[data-theme="light"]{
   --paper:#F5F1E8;
   --paper-2:#EDE7D9;
@@ -71,18 +108,25 @@ body{
   font-size:16px;
   line-height:1.9;
   letter-spacing:.02em;
+  overflow-x:clip;
 }
 a{color:inherit;}
-a:focus-visible,button:focus-visible,summary:focus-visible{
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{
   outline:2px solid var(--terra);
   outline-offset:3px;
 }
 .wrap{max-width:1040px;margin:0 auto;padding:0 24px;}
+.skip-link{
+  position:absolute;left:-9999px;top:0;background:var(--green);color:var(--paper);
+  padding:8px 16px;z-index:100;
+}
+.skip-link:focus{left:8px;top:8px;}
 
 /* ---------- header ---------- */
 header{
   position:sticky;top:0;z-index:10;
   background:color-mix(in srgb, var(--paper) 88%, transparent);
+  -webkit-backdrop-filter:blur(8px);
   backdrop-filter:blur(8px);
   border-bottom:1px solid var(--line);
 }
@@ -91,8 +135,7 @@ header{
   padding:14px 24px;max-width:1040px;margin:0 auto;
 }
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.brand svg{display:block;}
-.brand .en{color:var(--green);} /* svg stroke via currentColor */
+.brand svg{display:block;color:var(--green);}
 .brand-name{
   font-family:var(--serif);font-size:1.35rem;font-weight:600;letter-spacing:.14em;
 }
@@ -107,24 +150,22 @@ nav .nav-cta{
   color:var(--paper);background:var(--green);
   padding:8px 18px;border-radius:999px;letter-spacing:.12em;
 }
-:root[data-theme="dark"] nav .nav-cta,
-:root:not([data-theme="light"]) nav .nav-cta{color:var(--paper);}
 nav .nav-cta:hover{color:var(--paper);opacity:.85;}
-@media (max-width:720px){ nav ul li:not(:last-child){display:none;} }
+@media (max-width:860px){ nav ul li:not(:last-child){display:none;} }
 
 /* ---------- hero ---------- */
 .hero{
   position:relative;
-  padding:72px 24px 0;
+  padding:64px 24px 0;
   max-width:1040px;margin:0 auto;
   display:grid;
   grid-template-columns:1fr auto;
   gap:40px;
   align-items:end;
 }
-.hero-copy{padding-bottom:88px;}
+.hero-copy{padding-bottom:72px;}
 .hero-eyebrow{
-  font-size:.8rem;letter-spacing:.3em;color:var(--terra);
+  font-size:.9rem;font-weight:600;letter-spacing:.28em;color:var(--terra);
   text-transform:uppercase;margin-bottom:22px;
 }
 .hero-lead{
@@ -138,33 +179,52 @@ nav .nav-cta:hover{color:var(--paper);opacity:.85;}
   display:inline-block;text-decoration:none;
   font-size:.9rem;letter-spacing:.14em;
   padding:14px 30px;border-radius:999px;
+  border:none;cursor:pointer;font-family:var(--sans);
   transition:opacity .2s, background .2s;
 }
 .btn-primary{background:var(--green);color:var(--paper);}
 .btn-primary:hover{opacity:.85;}
-.btn-ghost{border:1px solid var(--line);color:var(--ink);}
+.btn-ghost{border:1px solid var(--line);color:var(--ink);background:transparent;}
 .btn-ghost:hover{background:var(--paper-2);}
 .hero-title{
-  font-family:var(--serif);
   writing-mode:vertical-rl;
-  font-size:clamp(2.2rem, 5vw, 3.4rem);
-  line-height:1.7;
-  letter-spacing:.16em;
+  font-family:var(--serif);
+  font-size:clamp(2rem, 4vw, 2.9rem);
+  line-height:1.65;
+  letter-spacing:.14em;
   font-weight:600;
-  padding-bottom:88px;
+  padding-bottom:72px;
+  order:2;
   text-wrap:balance;
 }
 .hero-title .turn{color:var(--terra);}
-@media (max-width:720px){
-  .hero{grid-template-columns:1fr;gap:8px;align-items:start;padding-top:56px;}
+@media (min-width:861px) and (max-height:840px){
+  .hero{padding-top:32px;}
+  .hero-title{font-size:clamp(1.55rem,2.9vw,2rem);padding-bottom:48px;}
+  .hero-copy{padding-bottom:48px;}
+}
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;gap:8px;align-items:start;padding-top:48px;}
   .hero-title{
     writing-mode:horizontal-tb;
-    order:-1;
-    font-size:clamp(1.8rem,7.5vw,2.4rem);
-    line-height:1.9;letter-spacing:.1em;
-    padding-bottom:0;
+    order:0;
+    font-size:clamp(1.45rem,5.6vw,2.2rem);
+    line-height:1.9;letter-spacing:.06em;
+    padding-bottom:0;max-width:100%;
   }
-  .hero-copy{padding-bottom:64px;}
+  .hero-copy{padding-bottom:24px;}
+}
+@media (max-width:480px){ .hero-lead .pc{display:none;} }
+.quick-nav{display:none;}
+@media (max-width:860px){
+  .quick-nav{
+    display:flex;gap:22px;justify-content:flex-start;
+    max-width:1040px;margin:0 auto;padding:0 24px 40px;
+  }
+  .quick-nav a{
+    font-size:.82rem;letter-spacing:.1em;color:var(--ink-soft);
+    text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px;
+  }
 }
 
 /* ---------- road motif ---------- */
@@ -214,7 +274,9 @@ h2{
   position:absolute;bottom:-1.2em;left:50%;transform:translateX(-50%);
   font-family:var(--sans);font-size:.8rem;color:var(--ink-soft);letter-spacing:.3em;white-space:nowrap;
 }
-@media (max-width:720px){
+.walk-fig{margin-top:48px;}
+.walk-fig svg{display:block;max-width:100%;height:auto;}
+@media (max-width:860px){
   .ban-grid{grid-template-columns:1fr;gap:56px;}
   .ban-char{text-align:center;}
 }
@@ -261,6 +323,23 @@ h2{
 /* event */
 .event-sec{background:var(--paper-2);}
 .event-cols{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+.day-sample{
+  background:var(--card);border:1px solid var(--line);border-radius:6px;
+  padding:26px 28px;margin-top:28px;
+}
+.day-sample h3{
+  font-family:var(--serif);font-size:.95rem;font-weight:600;letter-spacing:.14em;
+  margin-bottom:14px;color:var(--ink-soft);
+}
+.day-sample ol{list-style:none;}
+.day-sample li{
+  display:grid;grid-template-columns:64px 1fr;gap:16px;
+  font-size:.9rem;padding:7px 0;
+}
+.day-sample .t{
+  color:var(--terra);font-weight:600;letter-spacing:.06em;
+  font-variant-numeric:tabular-nums;
+}
 .yakusoku{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:30px 28px;}
 .yakusoku h3{
   font-family:var(--serif);font-size:1rem;font-weight:600;letter-spacing:.14em;
@@ -277,7 +356,13 @@ h2{
 .yakusoku .nots li::before{background:transparent;border:1.5px solid var(--ink-soft);width:6px;height:6px;}
 .yakusoku .nots li{color:var(--ink-soft);}
 .yakusoku + .yakusoku{margin-top:16px;}
-@media (max-width:720px){ .event-cols{grid-template-columns:1fr;} }
+@media (max-width:860px){ .event-cols{grid-template-columns:1fr;} }
+
+/* 主催者 */
+.host-grid{display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:start;}
+.host-mark svg{display:block;}
+.host-note{font-size:.85rem;color:var(--ink-soft);margin-top:1.6em;}
+@media (max-width:720px){ .host-grid{grid-template-columns:1fr;gap:32px;} }
 
 /* faq */
 .faq{max-width:44em;}
@@ -301,25 +386,42 @@ h2{
 .cta-sec{text-align:center;padding:120px 0;}
 .cta-sec h2{margin-bottom:14px;}
 .cta-sec .prose{margin:0 auto 40px;color:var(--ink-soft);}
+.signup-form{
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  max-width:520px;margin:0 auto;
+}
+.signup-form input[type="email"]{
+  flex:1;min-width:240px;
+  font-family:var(--sans);font-size:.95rem;
+  padding:13px 20px;border-radius:999px;
+  border:1px solid var(--line);
+  background:var(--card);color:var(--ink);
+}
+.signup-form input::placeholder{color:var(--ink-soft);}
 .cta-note{font-size:.8rem;color:var(--ink-soft);margin-top:18px;letter-spacing:.06em;}
+.cta-note a{color:var(--ink-soft);}
 
 /* footer */
 footer{border-top:1px solid var(--line);padding:40px 0 56px;}
 .footer-in{
   max-width:1040px;margin:0 auto;padding:0 24px;
-  display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;
 }
 .footer-brand{display:flex;align-items:center;gap:10px;}
-.footer-brand .brand-name{font-size:1.1rem;}
-footer small{color:var(--ink-soft);font-size:.78rem;letter-spacing:.08em;}
+.footer-brand .brand-name{font-size:1.1rem;font-family:var(--serif);letter-spacing:.14em;}
+.footer-meta{font-size:.78rem;color:var(--ink-soft);letter-spacing:.06em;line-height:2.1;text-align:right;overflow-wrap:anywhere;}
+.footer-meta a{color:var(--ink-soft);}
+@media (max-width:720px){ .footer-meta{text-align:left;} }
 </style>
 </head>
 <body>
 
+<a class="skip-link" href="#about">本文へ進む</a>
+
 <header>
   <div class="header-in">
     <a class="brand" href="#top" aria-label="伴活 トップへ">
-      <svg class="en" width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true">
         <!-- 縁(円)に切れ目 = 開かれた輪。中に並んで歩く二人の点 -->
         <path d="M27.5 6.8 A14 14 0 1 0 31 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         <circle cx="13.5" cy="17" r="2.4" fill="currentColor"/>
@@ -344,11 +446,12 @@ footer small{color:var(--ink-soft);font-size:.78rem;letter-spacing:.08em;}
 <main id="top">
 
   <div class="hero">
+    <h1 class="hero-title">出会いもある。<br><span class="turn">でも、それだけじゃない。</span></h1>
     <div class="hero-copy">
       <p class="hero-eyebrow">BANKATSU — 伴と出会う活動</p>
       <p class="hero-lead">
-        伴活（ばんかつ）は、人生を共に歩める<strong>「伴」</strong>と出会う活動。<br>
-        婚活でも、アプリでも、サークルでもない。<br>
+        伴活（ばんかつ）は、人生を共に歩める<strong>「伴」</strong>と出会う活動。<br class="pc">
+        婚活でも、アプリでも、サークルでもない。<br class="pc">
         30代・40代のための、新しい出会いの文化です。
       </p>
       <div class="hero-actions">
@@ -356,8 +459,11 @@ footer small{color:var(--ink-soft);font-size:.78rem;letter-spacing:.08em;}
         <a class="btn btn-ghost" href="#about">伴活とは</a>
       </div>
     </div>
-    <h1 class="hero-title">出会いもある。<br><span class="turn">でも、それだけじゃない。</span></h1>
   </div>
+  <nav class="quick-nav" aria-label="ショートカット">
+    <a href="#faq">よくある質問</a>
+    <a href="#host">運営について</a>
+  </nav>
   <div class="road" aria-hidden="true"></div>
 
   <section id="about">
@@ -372,6 +478,24 @@ footer small{color:var(--ink-soft);font-size:.78rem;letter-spacing:.08em;}
           <p class="quiet">恋愛は、目的ではなく結果。まず、安心できる人。価値観の合う人。また会いたい人。そこから始めます。</p>
         </div>
       </div>
+      <figure class="walk-fig" aria-hidden="true">
+        <!-- 並んで歩く二人(顔は描かない)と一本道 -->
+        <svg viewBox="0 0 1000 120" width="1000" height="120" fill="none">
+          <line x1="0" y1="104" x2="1000" y2="104" stroke="var(--line)" stroke-width="1.5"/>
+          <g>
+            <circle cx="492" cy="40" r="9" fill="var(--green)"/>
+            <path d="M492 52 v34" stroke="var(--green)" stroke-width="9" stroke-linecap="round"/>
+            <path d="M492 86 l-7 17 M492 86 l7 17" stroke="var(--green)" stroke-width="5" stroke-linecap="round"/>
+          </g>
+          <g>
+            <circle cx="524" cy="43" r="8" fill="var(--terra)"/>
+            <path d="M524 54 v31" stroke="var(--terra)" stroke-width="8" stroke-linecap="round"/>
+            <path d="M524 85 l-6 18 M524 85 l6 18" stroke="var(--terra)" stroke-width="4.5" stroke-linecap="round"/>
+          </g>
+          <circle cx="120" cy="104" r="3.5" fill="var(--line)"/>
+          <circle cx="880" cy="104" r="3.5" fill="var(--line)"/>
+        </svg>
+      </figure>
     </div>
   </section>
 
@@ -451,9 +575,18 @@ footer small{color:var(--ink-soft);font-size:.78rem;letter-spacing:.08em;}
         <div>
           <h2>主役は、体験。<br>出会いは、その横に。</h2>
           <div class="prose">
-            <p>伴活のイベントは「恋人を探しに行く場」ではありません。料理、散歩、焚き火、ボードゲーム——「なんか楽しそうだから」で来られる体験が主役です。</p>
-            <p>一人参加が標準。一人で来て、一人で楽しめて、一人で帰れる。連絡先の交換をその場で迫ることもしません。また会う口実は、こちらで用意します。</p>
-            <p class="quiet">第1回イベントは準備中です。案内を受け取りたい方は、下の登録からどうぞ。</p>
+            <p>伴活のイベントは「恋人を探しに行く場」ではありません。料理、ボードゲーム、散歩、焚き火——「なんか楽しそうだから」で来られる体験が主役です。</p>
+            <p>一人参加が標準。一人で来て、一人で楽しめて、一人で帰れる。連絡先の交換をその場で迫ることもしません。イベントの後、運営を通じて「また会いたい」を伝えられる仕組みを用意します。お互いがそう思ったときだけ、おつなぎします。</p>
+          </div>
+          <div class="day-sample">
+            <h3>例えば、こんな日曜日</h3>
+            <ol>
+              <li><span class="t">13:00</span><span>受付。名前でお迎えします。名札は下の名前だけ</span></li>
+              <li><span class="t">13:15</span><span>自己紹介より先に、班に分かれて餃子を包みはじめる</span></li>
+              <li><span class="t">14:30</span><span>焼いて、食べて、しゃべる。席は運営がさりげなく替えます</span></li>
+              <li><span class="t">15:45</span><span>次回の日程をお知らせして、片付け</span></li>
+              <li><span class="t">16:00</span><span>解散。二次会はありません。それも設計です</span></li>
+            </ol>
           </div>
         </div>
         <div>
@@ -463,6 +596,8 @@ footer small{color:var(--ink-soft);font-size:.78rem;letter-spacing:.08em;}
               <li>いい時間になること</li>
               <li>初めての人が、いちばん歓迎されること</li>
               <li>条件で値踏みされないこと</li>
+              <li>身分証による本人確認と、男女それぞれの定員管理</li>
+              <li>料金は申込前に、すべて明示すること</li>
             </ul>
           </div>
           <div class="yakusoku">
@@ -477,10 +612,32 @@ footer small{color:var(--ink-soft);font-size:.78rem;letter-spacing:.08em;}
     </div>
   </section>
 
+  <section id="host">
+    <div class="wrap">
+      <p class="sec-label">はじめる人</p>
+      <div class="host-grid">
+        <div class="host-mark" aria-hidden="true">
+          <svg width="96" height="96" viewBox="0 0 34 34" fill="none" style="color:var(--green);">
+            <path d="M27.5 6.8 A14 14 0 1 0 31 17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            <circle cx="13.5" cy="17" r="2.4" fill="currentColor"/>
+            <circle cx="20.5" cy="17" r="2.4" fill="var(--terra)"/>
+          </svg>
+        </div>
+        <div class="prose">
+          <h2>なぜ、伴活を始めるのか。</h2>
+          <p>はじめまして。伴活を立ち上げようとしている、主催者の◯◯です。</p><!-- TODO: 実名(または活動名)+可能なら写真に差し替える -->
+          <p>婚活は重かった。アプリは疲れた。まわりの30代・40代から、同じ言葉を何度も聞きました。私自身も、そうでした。恋人が欲しいというより、この先の人生を一人で抱え込まなくていい、と思える出会いが欲しい。それなら、その場を自分でつくろう——それが伴活の始まりです。</p>
+          <p>まずは一つの都市で、20人の小さな会から始めます。大きなことは約束しません。ただ、来てくれた一人ひとりの名前を覚えて、いい日曜日を一緒につくることから始めます。</p>
+          <p class="host-note">第1回イベントは現在準備中です。準備の進み具合も、案内メールで正直にお伝えしていきます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="faq">
     <div class="wrap">
       <p class="sec-label">よくある質問</p>
-      <h2>よくある質問</h2>
+      <h2>気になること、先に答えます。</h2>
       <div class="faq">
         <details>
           <summary>一人で参加してもいいですか？</summary>
@@ -491,16 +648,28 @@ footer small{color:var(--ink-soft);font-size:.78rem;letter-spacing:.08em;}
           <p>はい。「なんか楽しそう」で十分です。伴活は恋愛を目的にしていません。いい時間と、また会いたい人に出会えたら、それで成功です。</p>
         </details>
         <details>
-          <summary>年齢層はどのくらいですか？</summary>
-          <p>30代・40代の独身の方が中心です。</p>
+          <summary>料金はいくらですか？</summary>
+          <p>イベントごとに、内容と実費に応じて申込前に必ず明示します。目安は3,000〜5,000円程度。後から追加の費用をお願いすることは、ありません。</p>
+        </details>
+        <details>
+          <summary>男女比は管理されていますか？</summary>
+          <p>男女それぞれに定員を設けて、大きく偏らないように管理します。比率が崩れた会は、どれだけ楽しくても台無しになると考えているからです。</p>
+        </details>
+        <details>
+          <summary>本人確認はありますか？</summary>
+          <p>あります。申込時に身分証で年齢とご本人を確認します。「誰でも入れる場」にはしません。安心して一人で来てください。</p>
         </details>
         <details>
           <summary>連絡先の交換はどうなっていますか？</summary>
-          <p>その場で交換を迫らない設計にしています。「また会いたい」と思ったら、次の会で自然に会えるように、また会う口実はこちらで用意します。</p>
+          <p>その場で交換を迫らない設計です。興味のない相手を断る作業も、断られる時間もありません。イベントの後、運営を通じて「また会いたい」を伝えられる仕組みを用意します。お互いがそう思ったときだけ、おつなぎします。</p>
         </details>
         <details>
           <summary>遊び目的でも参加できますか？</summary>
-          <p>お断りしています。人を消費する出会いは、伴活が一番遠ざけたいものです。相手を条件だけで判断する方も、ご遠慮いただいています。</p>
+          <p>お断りしています。人を消費する出会いは、伴活が一番遠ざけたいものです。申込時の本人確認と事前のやりとりを通して、場を守ります。</p>
+        </details>
+        <details>
+          <summary>どこで開催されますか？</summary>
+          <p>まずは一つの都市から小さく始めます。第1回の開催地と日程は、決まり次第このページと案内メールでお知らせします。</p>
         </details>
       </div>
     </div>
@@ -510,9 +679,13 @@ footer small{color:var(--ink-soft);font-size:.78rem;letter-spacing:.08em;}
     <div class="wrap">
       <p class="sec-label" style="justify-content:center;">参加する</p>
       <h2>まあ、来てみませんか。</h2>
-      <p class="prose">いい出会いがあるかは、分かりません。<br>いい時間になることは、約束します。</p>
-      <a class="btn btn-primary" href="#" aria-disabled="true">LINEで案内を受け取る</a>
-      <p class="cta-note">※公式LINEは現在準備中です。開設し次第、こちらでご案内します。</p>
+      <p class="prose">いい出会いがあるかは、分かりません。<br>いい時間になることは、約束します。<br>第1回の案内を、いちばん最初にお届けします。</p>
+      <!-- TODO: Formspree(https://formspree.io)で無料フォームを作成し、下のIDを差し替える。公式LINE開設後はLINEボタンに変更 -->
+      <form class="signup-form" action="https://formspree.io/f/REPLACE_ME" method="POST">
+        <input type="email" name="email" required autocomplete="email" placeholder="メールアドレス" aria-label="メールアドレス">
+        <button class="btn btn-primary" type="submit">先に並んでおく</button>
+      </form>
+      <p class="cta-note">登録は案内メールの送付だけに使います。<a href="privacy.html">プライバシーポリシー</a><br>フォームがうまく動かないときは、<a href="mailto:namacha.subsub1@gmail.com?subject=%E4%BC%B4%E6%B4%BB%20%E6%A1%88%E5%86%85%E5%B8%8C%E6%9C%9B">メールで「案内希望」とだけ</a>送ってください。</p>
     </div>
   </section>
 
@@ -521,14 +694,18 @@ footer small{color:var(--ink-soft);font-size:.78rem;letter-spacing:.08em;}
 <footer>
   <div class="footer-in">
     <div class="footer-brand">
-      <svg class="en" width="26" height="26" viewBox="0 0 34 34" fill="none" aria-hidden="true" style="color:var(--green);">
+      <svg width="26" height="26" viewBox="0 0 34 34" fill="none" aria-hidden="true" style="color:var(--green);">
         <path d="M27.5 6.8 A14 14 0 1 0 31 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         <circle cx="13.5" cy="17" r="2.4" fill="currentColor"/>
         <circle cx="20.5" cy="17" r="2.4" fill="var(--terra)"/>
       </svg>
-      <span class="brand-name" style="font-family:var(--serif);letter-spacing:.14em;">伴活</span>
+      <span class="brand-name">伴活</span>
     </div>
-    <small>© 2026 伴活 — 出会いもある。でも、それだけじゃない。</small>
+    <div class="footer-meta">
+      運営：伴活 準備室（主催者：◯◯）<!-- TODO: 実名に差し替え --><br>
+      お問い合わせ：<a href="mailto:namacha.subsub1@gmail.com">namacha.subsub1@gmail.com</a> ／ <a href="privacy.html">プライバシーポリシー</a><br>
+      © 2026 伴活 — 出会いもある。でも、それだけじゃない。
+    </div>
   </div>
 </footer>
 
