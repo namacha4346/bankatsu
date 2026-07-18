@@ -6,6 +6,7 @@
 <title>伴活（ばんかつ）| 出会いもある。でも、それだけじゃない。</title>
 <meta name="description" content="伴活は、人生を共に歩める「伴」と出会う活動。30代・40代のための、婚活でもアプリでもサークルでもない、新しい出会いの文化です。">
 <meta name="theme-color" content="#F5F1E8">
+<meta name="theme-color" content="#171E1A" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2034%2034'%3E%3Cpath%20d='M27.5%206.8%20A14%2014%200%201%200%2031%2017'%20stroke='%232F5244'%20stroke-width='2.4'%20fill='none'%20stroke-linecap='round'/%3E%3Ccircle%20cx='13.5'%20cy='17'%20r='3'%20fill='%232F5244'/%3E%3Ccircle%20cx='20.5'%20cy='17'%20r='3'%20fill='%23C06B4E'/%3E%3C/svg%3E">
 <!-- OGP: og:image は絶対URL必須。ドメイン確定後に https://〜/assets/ogp.png へ書き換えること -->
 <meta property="og:title" content="伴活（ばんかつ）| 出会いもある。でも、それだけじゃない。">
@@ -53,6 +54,8 @@
   --terra:#C06B4E;
   --line:rgba(38,37,31,.16);
   --card:#FBF9F3;
+  --wash:12%;   /* ヒーロー背景の光の強さ */
+  --marker:24%; /* マーカー(傍線)の濃さ */
   --serif:"Bankatsu Serif","Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;
   --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic","Noto Sans JP",sans-serif;
 }
@@ -68,6 +71,8 @@
     --terra:#D98A6C;
     --line:rgba(237,232,220,.18);
     --card:#1E2721;
+    --wash:8%;
+    --marker:34%;
   }
 }
 /* テーマトグル(将来のJS実装)用の明示指定。media queryを上書きする */
@@ -82,6 +87,8 @@
   --terra:#C06B4E;
   --line:rgba(38,37,31,.16);
   --card:#FBF9F3;
+  --wash:12%;
+  --marker:24%;
 }
 :root[data-theme="dark"]{
   --paper:#171E1A;
@@ -94,21 +101,29 @@
   --terra:#D98A6C;
   --line:rgba(237,232,220,.18);
   --card:#1E2721;
+  --wash:8%;
+  --marker:34%;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;background:var(--paper);}
+::selection{background:color-mix(in srgb, var(--green) 24%, transparent);}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto;}
   *,*::before,*::after{transition:none !important;animation:none !important;}
 }
 body{
-  background:var(--paper);
+  background:transparent;
   color:var(--ink);
   font-family:var(--sans);
   font-size:16px;
   line-height:1.9;
   letter-spacing:.02em;
   overflow-x:clip;
+}
+/* 生成りの紙の質感。SVGノイズのdata URIで自己完結(外部画像なし) */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='260'%20height='260'%3E%3Cfilter%20id='g'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.8'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3CfeColorMatrix%20type='saturate'%20values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA%20type='linear'%20slope='.05'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect%20width='260'%20height='260'%20filter='url(%23g)'/%3E%3C/svg%3E");
 }
 a{color:inherit;}
 a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{
@@ -149,8 +164,9 @@ nav a:hover{color:var(--green);}
 nav .nav-cta{
   color:var(--paper);background:var(--green);
   padding:8px 18px;border-radius:999px;letter-spacing:.12em;
+  transition:background .2s;
 }
-nav .nav-cta:hover{color:var(--paper);opacity:.85;}
+nav .nav-cta:hover{color:var(--paper);background:var(--green-deep);}
 @media (max-width:860px){ nav ul li:not(:last-child){display:none;} }
 
 /* ---------- hero ---------- */
@@ -163,6 +179,22 @@ nav .nav-cta:hover{color:var(--paper);opacity:.85;}
   gap:40px;
   align-items:end;
 }
+/* 昼下がりの光。テラコッタの淡い暈しを縦書きタイトルの背に置く
+   (backgroundなのでoverflowに寄与しない) */
+main{
+  background:radial-gradient(circle 340px at calc(100% - 120px) 80px,
+    color-mix(in srgb, var(--terra) var(--wash), transparent), transparent 70%);
+}
+/* 入場のオーケストレーション(reduced-motion時は全停止) */
+@keyframes rise{
+  from{opacity:0;transform:translateY(18px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.hero-title{animation:rise 1s cubic-bezier(.22,.61,.36,1) .08s both;}
+.hero-eyebrow,.hero-lead,.hero-actions{animation:rise .8s cubic-bezier(.22,.61,.36,1) both;}
+.hero-eyebrow{animation-delay:.3s;}
+.hero-lead{animation-delay:.45s;}
+.hero-actions{animation-delay:.62s;}
 .hero-copy{padding-bottom:72px;}
 .hero-eyebrow{
   font-size:.9rem;font-weight:600;letter-spacing:.28em;color:var(--terra);
@@ -173,17 +205,21 @@ nav .nav-cta:hover{color:var(--paper);opacity:.85;}
   font-size:1.25rem;line-height:2.3;
   max-width:34em;
 }
-.hero-lead strong{font-weight:600;color:var(--green);}
+.hero-lead strong{
+  font-weight:600;color:var(--green);
+  background:linear-gradient(transparent 64%, color-mix(in srgb, var(--terra) var(--marker), transparent) 64%);
+}
 .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px;}
 .btn{
   display:inline-block;text-decoration:none;
   font-size:.9rem;letter-spacing:.14em;
   padding:14px 30px;border-radius:999px;
   border:none;cursor:pointer;font-family:var(--sans);
-  transition:opacity .2s, background .2s;
+  transition:background .2s, transform .15s;
 }
+.btn:active{transform:translateY(1px);}
 .btn-primary{background:var(--green);color:var(--paper);}
-.btn-primary:hover{opacity:.85;}
+.btn-primary:hover{background:var(--green-deep);}
 .btn-ghost{border:1px solid var(--line);color:var(--ink);background:transparent;}
 .btn-ghost:hover{background:var(--paper-2);}
 .hero-title{
@@ -224,7 +260,9 @@ nav .nav-cta:hover{color:var(--paper);opacity:.85;}
   .quick-nav a{
     font-size:.82rem;letter-spacing:.1em;color:var(--ink-soft);
     text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px;
+    transition:color .2s, border-color .2s;
   }
+  .quick-nav a:hover{color:var(--green);border-color:var(--green);}
 }
 
 /* ---------- road motif ---------- */
@@ -242,9 +280,12 @@ nav .nav-cta:hover{color:var(--paper);opacity:.85;}
 .road.r2::after{left:calc(52% + 16px);}
 .road.r3::before{left:78%;}
 .road.r3::after{left:calc(78% + 16px);}
+.road.r4::before{left:90%;}
+.road.r4::after{left:calc(90% + 16px);}
 
 /* ---------- sections ---------- */
-section{padding:88px 0;}
+section{padding:96px 0;scroll-margin-top:64px;}
+@media (max-width:720px){ section{padding:64px 0;} }
 .sec-label{
   display:flex;align-items:center;gap:14px;
   font-size:.78rem;letter-spacing:.3em;color:var(--ink-soft);
@@ -257,6 +298,7 @@ h2{
   font-weight:600;letter-spacing:.08em;line-height:1.8;
   margin-bottom:32px;
   text-wrap:balance;
+  font-feature-settings:"palt";
 }
 .prose{max-width:36em;color:var(--ink);}
 .prose p + p{margin-top:1.4em;}
@@ -274,8 +316,24 @@ h2{
   position:absolute;bottom:-1.2em;left:50%;transform:translateX(-50%);
   font-family:var(--sans);font-size:.8rem;color:var(--ink-soft);letter-spacing:.3em;white-space:nowrap;
 }
+/* 「伴」の背にロゴと同じ「切れ目のある縁」。切れ目は注釈の側に開く */
+.ban-char::before{
+  content:"";position:absolute;left:50%;top:50%;
+  width:1.5em;aspect-ratio:1;border-radius:50%;
+  transform:translate(-50%,-50%);
+  border:1.5px solid color-mix(in srgb, var(--green) 34%, transparent);
+  -webkit-mask:conic-gradient(from 215deg, #000 0 80%, transparent 80.5%);
+  mask:conic-gradient(from 215deg, #000 0 80%, transparent 80.5%);
+}
 .walk-fig{margin-top:48px;}
 .walk-fig svg{display:block;max-width:100%;height:auto;}
+/* 二人がゆっくり歩いている気配。半歩ずれた呼吸(reduced-motion時は静止) */
+@keyframes stroll{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-3px);}
+}
+.walk-fig .p1{animation:stroll 2.8s ease-in-out infinite;}
+.walk-fig .p2{animation:stroll 2.8s ease-in-out -1.4s infinite;}
 @media (max-width:860px){
   .ban-grid{grid-template-columns:1fr;gap:56px;}
   .ban-char{text-align:center;}
@@ -297,8 +355,12 @@ h2{
   font-size:clamp(1.3rem,2.6vw,1.7rem);
   letter-spacing:.1em;text-align:center;
   padding:8px 0;
+  font-feature-settings:"palt";
 }
-.aida-answer em{font-style:normal;color:var(--green);font-weight:600;}
+.aida-answer em{
+  font-style:normal;color:var(--green);font-weight:600;
+  background:linear-gradient(transparent 64%, color-mix(in srgb, var(--terra) var(--marker), transparent) 64%);
+}
 @media (max-width:720px){ .aida-cards{grid-template-columns:1fr;} }
 
 /* promises */
@@ -334,8 +396,9 @@ h2{
 .day-sample ol{list-style:none;}
 .day-sample li{
   display:grid;grid-template-columns:64px 1fr;gap:16px;
-  font-size:.9rem;padding:7px 0;
+  font-size:.9rem;padding:9px 0;
 }
+.day-sample li + li{border-top:1px dashed var(--line);}
 .day-sample .t{
   color:var(--terra);font-weight:600;letter-spacing:.06em;
   font-variant-numeric:tabular-nums;
@@ -360,7 +423,13 @@ h2{
 
 /* 主催者 */
 .host-grid{display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:start;}
-.host-mark svg{display:block;}
+/* 写真差し替え前提のポートレート枠。円の中にロゴ=まだ顔のない主催者 */
+.host-mark{
+  width:120px;height:120px;border-radius:50%;
+  background:var(--card);border:1px solid var(--line);
+  display:grid;place-items:center;
+}
+.host-mark svg{display:block;width:60px;height:60px;}
 .host-note{font-size:.85rem;color:var(--ink-soft);margin-top:1.6em;}
 @media (max-width:720px){ .host-grid{grid-template-columns:1fr;gap:32px;} }
 
@@ -372,7 +441,9 @@ h2{
   cursor:pointer;list-style:none;
   font-family:var(--serif);font-size:1.02rem;font-weight:600;letter-spacing:.06em;
   padding:22px 36px 22px 0;position:relative;
+  transition:color .2s;
 }
+.faq summary:hover{color:var(--green);}
 .faq summary::-webkit-details-marker{display:none;}
 .faq summary::after{
   content:"+";position:absolute;right:4px;top:50%;transform:translateY(-50%);
@@ -381,9 +452,15 @@ h2{
 }
 .faq details[open] summary::after{transform:translateY(-50%) rotate(45deg);}
 .faq details p{padding:0 0 24px;font-size:.94rem;color:var(--ink-soft);max-width:38em;}
+@keyframes unfold{
+  from{opacity:0;transform:translateY(-4px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.faq details[open] p{animation:unfold .3s ease both;}
 
 /* cta */
 .cta-sec{text-align:center;padding:120px 0;}
+@media (max-width:720px){ .cta-sec{padding:88px 0 96px;} }
 .cta-sec h2{margin-bottom:14px;}
 .cta-sec .prose{margin:0 auto 40px;color:var(--ink-soft);}
 .signup-form{
@@ -396,10 +473,14 @@ h2{
   padding:13px 20px;border-radius:999px;
   border:1px solid var(--line);
   background:var(--card);color:var(--ink);
+  transition:border-color .2s;
 }
+.signup-form input[type="email"]:focus{border-color:var(--green);}
 .signup-form input::placeholder{color:var(--ink-soft);}
 .cta-note{font-size:.8rem;color:var(--ink-soft);margin-top:18px;letter-spacing:.06em;}
-.cta-note a{color:var(--ink-soft);}
+.cta-note a{color:var(--ink-soft);white-space:nowrap;}
+/* 390px幅で3行目が1文字だけ折り返すのを防ぐ */
+@media (max-width:480px){ .cta-sec .prose{font-size:.92rem;} }
 
 /* footer */
 footer{border-top:1px solid var(--line);padding:40px 0 56px;}
@@ -482,12 +563,12 @@ footer{border-top:1px solid var(--line);padding:40px 0 56px;}
         <!-- 並んで歩く二人(顔は描かない)と一本道 -->
         <svg viewBox="0 0 1000 120" width="1000" height="120" fill="none">
           <line x1="0" y1="104" x2="1000" y2="104" stroke="var(--line)" stroke-width="1.5"/>
-          <g>
+          <g class="p1">
             <circle cx="492" cy="40" r="9" fill="var(--green)"/>
             <path d="M492 52 v34" stroke="var(--green)" stroke-width="9" stroke-linecap="round"/>
             <path d="M492 86 l-7 17 M492 86 l7 17" stroke="var(--green)" stroke-width="5" stroke-linecap="round"/>
           </g>
-          <g>
+          <g class="p2">
             <circle cx="524" cy="43" r="8" fill="var(--terra)"/>
             <path d="M524 54 v31" stroke="var(--terra)" stroke-width="8" stroke-linecap="round"/>
             <path d="M524 85 l-6 18 M524 85 l6 18" stroke="var(--terra)" stroke-width="4.5" stroke-linecap="round"/>
@@ -617,7 +698,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 56px;}
       <p class="sec-label">はじめる人</p>
       <div class="host-grid">
         <div class="host-mark" aria-hidden="true">
-          <svg width="96" height="96" viewBox="0 0 34 34" fill="none" style="color:var(--green);">
+          <svg width="60" height="60" viewBox="0 0 34 34" fill="none" style="color:var(--green);">
             <path d="M27.5 6.8 A14 14 0 1 0 31 17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
             <circle cx="13.5" cy="17" r="2.4" fill="currentColor"/>
             <circle cx="20.5" cy="17" r="2.4" fill="var(--terra)"/>
@@ -674,6 +755,8 @@ footer{border-top:1px solid var(--line);padding:40px 0 56px;}
       </div>
     </div>
   </section>
+
+  <div class="road r4" aria-hidden="true"></div>
 
   <section id="join" class="cta-sec">
     <div class="wrap">
